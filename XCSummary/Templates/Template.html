@@ -2,9 +2,190 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title></title>
+        <title>XCUITest Report</title>
+        <style>
+            body {
+                font-family: Menlo, Consolas, monospace;
+                color: #444;
+            }
+
+            ul {
+                list-style: none;
+                margin: 0;
+                padding: 0;
+            }
+
+            li {
+                text-align: left;
+            }
+
+            .test {
+                border-top: 5px solid white;
+                border-bottom: 5px solid white;
+                padding: 15px;
+            }
+
+            .test-inline {
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+            }
+
+            .test-inline > li {
+                display: inline;
+            }
+
+            .test-success {
+                background-color: #CBF4A3;
+            }
+
+            .test-failed {
+                background-color: #FF627C;
+            }
+
+            .test-action {
+                background-color: #F3F3F3;
+            }
+
+            li.depth-1 {
+                margin-left: 35px;
+            }
+
+            li.depth-2 {
+                margin-left: 70px;
+            }
+
+            li.depth-3 {
+                margin-left: 105px;
+            }
+
+            li.depth-4 {
+                margin-left: 140px;
+            }
+
+            li.depth-5 {
+                margin-left: 175px;
+            }
+
+            li.depth-6 {
+                margin-left: 210px;
+            }
+
+            li.depth-7 {
+                margin-left: 245px;
+            }
+
+            li.depth-8 {
+                margin-left: 280px;
+            }
+
+            li.depth-9 {
+                margin-left: 315px;
+            }
+
+            li.depth-10 {
+                margin-left: 350px;
+            }
+
+            i {
+                border: solid #444;
+                border-width: 0 3px 3px 0;
+                display: inline-block;
+                padding: 3px;
+                margin-right: 10px;
+            }
+
+            .right {
+                transform: rotate(-45deg);
+                -webkit-transform: rotate(-45deg);
+            }
+
+            .left {
+                transform: rotate(135deg);
+                -webkit-transform: rotate(135deg);
+            }
+
+            .up {
+                transform: rotate(-135deg);
+                -webkit-transform: rotate(-135deg);
+            }
+
+            .down {
+                transform: rotate(45deg);
+                -webkit-transform: rotate(45deg);
+            }
+
+            #floating-image {
+                position: fixed;
+                right: 100px;
+                top: 32px;
+            }
+
+            #floating-image > img {
+                width: 400px;
+                height: auto;
+            }
+
+        </style>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script>
+            $(function() {
+                function toggleArrow(arrowElement) {
+                    arrowElement.toggleClass("right")
+                    arrowElement.toggleClass("down")
+                }
+
+                $(".test").click(function() {
+                    var element = $(this).next(".test-actions");
+                    var arrow = $(this).children(".arrow");
+
+                    if (!element.is(":visible")) {
+                        toggleArrow(arrow);
+                    }
+
+                    element.slideToggle(400, toggleArrow(arrow));
+                });
+
+                $(".depth-2").click(function() {
+                    $(this).nextUntil(".depth-2").toggle();
+                });
+
+
+                $(".depth-3").click(function() {
+                    $(this).nextUntil(".depth-3").toggle();
+                    var arrow = $(this).children(".arrow");
+                    toggleArrow(arrow);
+                });
+
+
+                $("#hide-all").click(function() {
+                    $(".test-actions").hide();
+                });
+
+
+              var floatingImageDiv = $('#floating-image');
+              var floatingImage = floatingImageDiv.children('img');
+              var imageHeight = 0;
+
+              $(".test-inline-image").mouseenter(function(e){
+                    var imageSource = $(this).children("img").attr("src");
+
+                    if (floatingImage.attr("src") != "imageSource") {
+                        floatingImage.attr("src", imageSource);
+                        imageHeight = floatingImage.height();
+                        floatingImageDiv.show();
+                    }
+              });
+
+              $(".test-inline-image").mouseleave(function() {
+                    floatingImageDiv.hide();
+              });
+            });
+        </script>
     </head>
     <body>
         %@
+        </ul>
+        <div id="floating-image"><img src=""></div>
     </body>
 </html>
