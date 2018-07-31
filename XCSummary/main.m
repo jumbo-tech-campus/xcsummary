@@ -43,12 +43,21 @@ int main(int argc, const char * argv[]) {
                                                                            showSuccessTests:showSuccess];
         [builder appendSummaries:summaries];
         [summaries enumerateObjectsUsingBlock:^(CMTestableSummary *summary, NSUInteger idx, BOOL * _Nonnull stop) {
-            [builder appendTests:summary.tests indentation:10.0f];
+            [builder appendTests:summary.tests depthLevel:0];
         }];
         
         NSString *htmlResult = [builder build];
-        return [[htmlResult dataUsingEncoding:NSUTF8StringEncoding] writeToFile:output.stringByExpandingTildeInPath
-                                                                     atomically:YES] == YES ? EXIT_SUCCESS : EXIT_FAILURE;
+
+        NSError *error;
+        BOOL success = [[htmlResult dataUsingEncoding:NSUTF8StringEncoding] writeToFile:output.stringByExpandingTildeInPath options:NSDataWritingAtomic error:&error];
+
+        if (success) {
+            return EXIT_SUCCESS;
+        } else {
+            NSLog(@"writeToFile failed with error %@", error);
+            return EXIT_FAILURE;
+        }
+
     }
     return 0;
 }
