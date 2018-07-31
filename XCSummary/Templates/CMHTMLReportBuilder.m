@@ -73,27 +73,20 @@
     [self.resultString appendString:header];
 }
 
-- (void)appendTests:(NSArray *)tests indentation:(CGFloat)indentation
+- (void)appendTests:(NSArray <CMTest *> *)tests depthLevel:(NSInteger)depthLevel
 {
     [tests enumerateObjectsUsingBlock:^(CMTest * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         
-        [self _appendTestCase:obj indentation:indentation];
-        if (obj.subTests.count > 0)
-        {
-            [self appendTests:obj.subTests indentation:indentation + 50];
-        }
-        else
-        {
-            if (self.showSuccessTests == NO)
-            {
-                if (obj.status == CMTestStatusFailure)
-                {
-                    [self _appendActivities:obj.activities indentation:indentation + 50];
+        [self _appendTestCase:obj depthLevel:depthLevel];
+        if (obj.subTests.count > 0) {
+            [self appendTests:obj.subTests depthLevel:depthLevel + 1];
+        } else {
+            if (self.showSuccessTests == NO) {
+                if (obj.status == CMTestStatusFailure) {
+                    [self _appendActivities:obj.activities depthLevel:depthLevel + 1];
                 }
-            }
-            else
-            {
-                [self _appendActivities:obj.activities indentation:indentation + 50];
+            } else {
+                [self _appendActivities:obj.activities depthLevel:depthLevel + 1];
             }
         }
     }];
@@ -113,42 +106,41 @@
     return format;
 }
 
-- (void)_appendTestCase:(CMTest *)testCase indentation:(CGFloat)indentation
+- (void)_appendTestCase:(CMTest *)testCase depthLevel:(NSInteger)depthLevel
 {
-    NSString *templateFormat = testCase.status == CMTestStatusFailure ?
-    [self _decodeTemplateWithName:TestCaseTemplateFailed] :
-    [self _decodeTemplateWithName:TestCaseTemplate];
-    NSString *composedString = [NSString stringWithFormat:templateFormat, indentation, @"px", testCase.testName, testCase.duration];
+    NSString *templateFormat = testCase.status == CMTestStatusFailure ? [self _decodeTemplateWithName:TestCaseTemplateFailed] : [self _decodeTemplateWithName:TestCaseTemplate];
+    NSString *composedString = [NSString stringWithFormat:templateFormat, depthLevel, testCase.testName, testCase.duration];
     [self.resultString appendString:composedString];
 }
 
-- (void)_appendActivities:(NSArray *)activities indentation:(CGFloat)indentation
+- (void)_appendActivities:(NSArray *)activities depthLevel:(NSInteger)depthLevel
 {
+    NSInteger finalDepthLevel = depthLevel + 1;
     [activities enumerateObjectsUsingBlock:^(CMActivitySummary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        [self _appendActivity:obj indentation:indentation];
-        [self _appendActivities:obj.subActivities indentation:indentation + 50];
+        [self _appendActivity:obj depthLevel:depthLevel];
+        [self _appendActivities:obj.subActivities depthLevel:finalDepthLevel];
     }];
 }
 
-- (void)_appendActivity:(CMActivitySummary *)activity indentation:(CGFloat)indentation
+- (void)_appendActivity:(CMActivitySummary *)activity depthLevel:(NSInteger)depthLevel
 {
     NSString *templateFormat = nil;
     NSString *composedString = nil;
     if (activity.hasScreenshotData)
     {
         templateFormat = [self _decodeTemplateWithName:ActivityTemplateWithImage];
-        NSString *imageName = [NSString stringWithFormat:@"Screenshot_%@.png", activity.uuid.UUIDString];
+        NSString *imageName = [NSString stringWithFormat:@"Screenshot_%@.jpg", activity.uuid.UUIDString];
         NSString *fullPath = [self.path stringByAppendingPathComponent:imageName];
         
         [self.fileManager copyItemAtPath:fullPath toPath:[self.htmlResourcePath stringByAppendingPathComponent:imageName] error:nil];
         
-        NSString *localImageName = [NSString stringWithFormat:@"resources/Screenshot_%@.png", activity.uuid.UUIDString];
-        composedString = [NSString stringWithFormat:templateFormat, indentation, @"px", activity.title, activity.finishTimeInterval - activity.startTimeInterval, localImageName];
+        NSString *localImageName = [NSString stringWithFormat:@"resources/Screenshot_%@.jpg", activity.uuid.UUIDString];
+        composedString = [NSString stringWithFormat:templateFormat, depthLevel, activity.title, activity.finishTimeInterval - activity.startTimeInterval, localImageName];
     }
     else
     {
         templateFormat = [self _decodeTemplateWithName:ActivityTemplateWithoutImage];
-        composedString = [NSString stringWithFormat:templateFormat, indentation, @"px", activity.title, activity.finishTimeInterval - activity.startTimeInterval];
+        composedString = [NSString stringWithFormat:templateFormat, depthLevel, activity.title, activity.finishTimeInterval - activity.startTimeInterval];
     }
     
     [self.resultString appendString:composedString];

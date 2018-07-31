@@ -34,9 +34,9 @@
  Appends tests to the html template
 
  @param tests NSArray
- @param indentation CGGloat
+ @param depthLevel NSInteger
  */
-- (void)appendTests:(NSArray <CMTest *> *)tests indentation:(CGFloat)indentation;
+- (void)appendTests:(NSArray <CMTest *> *)tests depthLevel:(NSInteger)depthLevel;
 
 /**
  Builds a compilted html page
