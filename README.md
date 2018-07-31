@@ -1,11 +1,12 @@
 ![GitHub Logo](/resources/header.png)
 
-`xcsummary` is a macOS command line tool that parses `xcbodebuild` test results and generates html output with activity screenshots. We use it as a part of our CI Server and find it very useful and helpful. We'd like to share it.
+`xcsummary` is a macOS command line tool that parses `xcodebuild` test results and generates html output with activity screenshots. We use it as a part of our CI Server and find it very useful and helpful. We'd like to share it.
 
 * [Installation](#installation)
 * [Usage](#usage)
 * [Example](#example)
 * [Output](#output)
+* [Improvements](#improvements)
 * [Inspiration](#inspiration)
 * [Links](#links)
 * [Contribution](#contribution)
@@ -16,7 +17,7 @@ Open terminal and do the following:
 
 * Clone the project.
 ```shell
-git clone https://github.com/MacPaw/xcsummary.git
+git clone https://github.com/jumbo-tech-campus/xcsummary.git
 ```
 
 * Navigate to source folder
@@ -42,7 +43,7 @@ Optional -show_success argument can be used to expand green test cases as well.
 Tip: we use `-resultBundlePath` parameter in xcodebuild to know the exact location for every single build.
 ```shell
 #Run your test as usual
-xcodebuild test -workspace YourProject.xcworkspace -scheme YourProjectScheme -resultBundlePath '<path_to_results>' 
+xcodebuild test -workspace YourProject.xcworkspace -scheme YourProjectScheme -resultBundlePath '<path_to_results>'
 #Here we suggest to browse <path_to_results> folder to check the folders structure.
 #... and generate the report
 xcsummary -in <path_to_results>/1_Test/action_TestSummaries.plist -out ~/Desktop/result.html
@@ -60,6 +61,20 @@ xcsummary -in <path_to_results>/1_Test/action_TestSummaries.plist -out ~/Desktop
 
 [Live HTML Example](http://htmlpreview.github.io/?https://github.com/MacPaw/xcsummary/blob/master/resources/example/result.html)
 
+## Improvements
+
+### Attachments
+
+In the original [xcsummary](https://github.com/MacPaw/xcsummary) the reports become very long if you have a lot of failing tests. This because of full size screenshots. In this version we improved that with only showing smaller thumbnails. When you mouse over the small thumbnail the full size screenshot is showed.
+
+### Collapse tests
+
+In the report you are able to collapse failing tests.
+
+### Fonts
+
+We changed the default font-family to `Menlo, Consolas, monospace`
+
 ## Inspiration
 xcsummary is completely inspired by [xcpretty](https://github.com/supermarin/xcpretty), we really love it and use it. But since xcpretty has some [issues](https://github.com/supermarin/xcpretty/issues/251) with screenshots collection, we decided to create our own one :)
 
@@ -67,4 +82,4 @@ xcsummary is completely inspired by [xcpretty](https://github.com/supermarin/xcp
 Great article to understand [Test Logs in Xcode](http://michele.io/test-logs-in-xcode)
 
 ## Contribution
-Feel free to open issues and pull requests. 
+Feel free to open issues and pull requests.
