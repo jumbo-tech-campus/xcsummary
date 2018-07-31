@@ -30,6 +30,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		93D722A320D2A57A00A0AF26 /* TemplateGeneratedHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TemplateGeneratedHeader.h; sourceTree = "<group>"; };
+		93D722A420D2A57A00A0AF26 /* TemplateHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TemplateHeader.h; sourceTree = "<group>"; };
 		A723D1D61E128315000F0F65 /* SummaryTemplate.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = SummaryTemplate.html; sourceTree = "<group>"; };
 		A7B461D31E00171C002B13B0 /* xcsummary */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = xcsummary; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7BC741E1E0052640072AD47 /* NSArrayAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSArrayAdditions.h; sourceTree = "<group>"; };
@@ -129,6 +131,8 @@
 		A7BC742E1E0052640072AD47 /* Templates */ = {
 			isa = PBXGroup;
 			children = (
+				93D722A320D2A57A00A0AF26 /* TemplateGeneratedHeader.h */,
+				93D722A420D2A57A00A0AF26 /* TemplateHeader.h */,
 				A7BC74311E0052640072AD47 /* CMHTMLReportBuilder.h */,
 				A7BC74321E0052640072AD47 /* CMHTMLReportBuilder.m */,
 				A7BC742F1E0052640072AD47 /* ActivityTemplateWithImage.html */,
